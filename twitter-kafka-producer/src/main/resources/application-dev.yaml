@@ -1,0 +1,47 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: twitter-kafka-producer
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 3
+      client-id: tweet-producer-local #nome do cliente, quando ele conectar identifica quem esta plugando  testart criando produtor
+      group-id: tweet-grupo-1  #podemoster um grupo de consumidores, dessa forma podemos ter um outro conumidor  testar como isso funfa
+      transaction-id-prefix: tweet-prefix # é o identificador transacional, sempre que le criar uma trasacaão ele identificated saber o pq disso fazer testes
+      properties:
+        enable:
+          idempotence: true #garantir que ela vai ser entregue, se receber mais de uma vez, garantir uma unica versão da mensagem criada.
+        transactional:
+          id: id-tweet
+
+#projeto gradle com spring framework kafka
+#baixar kafka no site oficial
+  #binarios
+  #subir o zookeep 2181
+  #subir o kafka 9092
+
+
+
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+#here topics to transactions kafka
+app:
+  topic: twitter-topic
+  timeout: 5
+  retries: 3
+#  urlTransaction: http://localhost:8083/v1/transactions/block?agencia=%d&conta=%d
+#  urlTransactionById: http://localhost:8083/v1/transactions/%s
+
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web: DEBUG
+#    com.memorynotfound: DEBUG
